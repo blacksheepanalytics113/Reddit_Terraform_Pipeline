@@ -9,11 +9,11 @@ from datetime import datetime
 def connect_reddit() -> Reddit:
     print("connected to reddit!")
     try:
-        reddit = praw.Reddit(client_id= "",
-                                client_secret="",
+        reddit = praw.Reddit(client_id= "Mpu0jZKmXmr8ok0Awsfqiw",
+                                client_secret="ynTCE51A21217Ux9F1waBVt77T-S8w",
                                 user_agent = "MyAPI/0.0.1",
-                                Username = "",
-                                Password = ""
+                                Username = "Ajiyee",
+                                Password = "Olajide@1965"
                                 )
        
         subreddit = reddit.subreddit("GallowBoob")
@@ -26,7 +26,7 @@ def connect_reddit() -> Reddit:
         
         # Display the description of the Subreddit
         # print("Description:", subreddit.description)
-        
+        df_list =[]
         subreddit = reddit.redditor("GallowBoob")
         # for post_data in subreddit.hot():
           # print(post_data)
@@ -35,69 +35,44 @@ def connect_reddit() -> Reddit:
         for post in subreddit.top(time_filter="all"):
             post_month = datetime.utcfromtimestamp(post.created_utc).month
             post_month >= 1 and post_month <= current_month # Get Data Post from January Till Date
-            # print(post.title)
+            sub_title = post.title
+            sub_url = post.url
+            sub_score = post.score
+            sub_posts=post.id
+            sub_reddit = post.subreddit
+            sub_votes =post.ups
+            sub_author = post.author
+            sub_comments = post.num_comments
+            sub_submission = post.created_utc
+            print(sub_title)
             print()
-          
-            # print(post.url)
-            posts_dictt = {"Url": [], "Post Id": [],
-              "Title": [], "Score": [],
-              "Total Comments": [], "Author": [],"Upvotes":[],
-              "Submission_Time":[],"Subreddit":[]
-              }
-                
             
-                  # Append all data coming from post to post_dict
-            posts_dictt["Url"].append(post.url)
-            posts_dictt["Post Id"].append(post.id)
-            posts_dictt["Title"].append(post.title)
-            posts_dictt["Score"].append(post.score)
-            posts_dictt["Total Comments"].append(post.num_comments)
-            posts_dictt["Author"].append(post.author)
-            posts_dictt["Upvotes"].append(post.ups) 
-            posts_dictt["Submission_Time"].append(post.created_utc)
-            posts_dictt["Subreddit"].append(post.subreddit)
+            # Append All To Respective  Columns
+            df_list.append([sub_author,sub_comments,sub_posts,sub_reddit,sub_score,sub_url,sub_votes,sub_submission,sub_title])
             
-            # print(posts_dictt)
-            
-            # Initialize an empty DataFrame
-            final_df = pd.DataFrame()
-
-            # Convert each JSON into a DataFrame and append it to the final DataFrame
-            temp_df = pd.json_normalize(posts_dictt)
-            print(temp_df)
-           
-
-            # final_df = final_df.a(temp_df, ignore_index=True)
-            # print(final_df)
-
-           
-            csv_path = 'C:/Users/user/Desktop/Data Engineering Projects(Personal)/AWS_Reddit_Terraform/Csv_Load/Raw_Data/reddit.csv'
-            temp_df.to_csv(csv_path, index=True)
-            print(f"DataFrame successfully saved to {csv_path}")
-                    
-   
-                    # return reddit_df
+            # Create a dataframe
+            reddit_df = pd.DataFrame(df_list, columns=['Author', 'Total_Comments', 'Posts', 'Reddit', 'Score','Url','Votes','Submission','Title'])
+            # print(reddit_df)
+        return reddit_df
     except Exception as e:
         print(e)
         sys.exit(1)
-connect_reddit()
+# connect_reddit()
 
 def transform_reddit():
   reddit_transform_df = connect_reddit()
-  # print(reddit_df)
   # Transform reddit Dataframe columns 
-  reddit_transform_df['Submission_Time'] = pd.to_datetime(reddit_transform_df['Submission_Time'])
+  reddit_transform_df['Submission'] = pd.to_datetime(reddit_transform_df['Submission'])
   reddit_transform_df['Author'] = reddit_transform_df['Author'].astype(str)
-  reddit_transform_df['Total Comments'] = reddit_transform_df['Total Comments'].astype(int)
+  reddit_transform_df['Total_Comments'] = reddit_transform_df['Total_Comments'].astype(int)
   reddit_transform_df['Score'] = reddit_transform_df['Score'].astype(int)
   reddit_transform_df['Title'] = reddit_transform_df['Title'].astype(str)
-  # return reddit_transform_df
   return reddit_transform_df
-transform_reddit()
+# transform_reddit()
 
 def load_to_csv_data():
   reddit_load = transform_reddit()
-  csv_path = 'C:/Users/user/Desktop/Data Engineering Projects(Personal)/AWS_Reddit_Terraform/Csv_Load/reddit.csv'
+  csv_path = 'C:/Users/user/Desktop/Data Engineering Projects(Personal)/AWS_Reddit_Terraform/Csv_Load/Transform_Data/reddit.csv'
   reddit_load.to_csv(csv_path, index=False)
   print(f"DataFrame successfully saved to {csv_path}")
   return reddit_load
