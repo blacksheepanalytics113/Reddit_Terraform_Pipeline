@@ -9,11 +9,11 @@ from datetime import datetime
 def connect_reddit() -> Reddit:
     print("connected to reddit!")
     try:
-        reddit = praw.Reddit(client_id= "Mpu0jZKmXmr8ok0Awsfqiw",
-                                client_secret="ynTCE51A21217Ux9F1waBVt77T-S8w",
-                                user_agent = "MyAPI/0.0.1",
-                                Username = "Ajiyee",
-                                Password = "Olajide@1965"
+        reddit = praw.Reddit(client_id= "",
+                                client_secret="",
+                                user_agent = "",
+                                Username = "",
+                                Password = ""
                                 )
        
         subreddit = reddit.subreddit("GallowBoob")
