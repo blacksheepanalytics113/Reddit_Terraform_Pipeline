@@ -67,12 +67,13 @@ def transform_reddit():
   reddit_transform_df['Total_Comments'] = reddit_transform_df['Total_Comments'].astype(int)
   reddit_transform_df['Score'] = reddit_transform_df['Score'].astype(int)
   reddit_transform_df['Title'] = reddit_transform_df['Title'].astype(str)
+  # print(reddit_transform_df)
   return reddit_transform_df
 # transform_reddit()
 
 def load_to_csv_data():
   reddit_load = transform_reddit()
-  csv_path = 'C:/Users/user/Desktop/Data Engineering Projects(Personal)/AWS_Reddit_Terraform/Csv_Load/Transform_Data/reddit.csv'
+  csv_path = 'C:/Users/user/Desktop/Data Engineering Projects(Personal)/AWS_Reddit_Terraform/Csv_Load/Transform_Data/new_data.csv'
   reddit_load.to_csv(csv_path, index=False)
   print(f"DataFrame successfully saved to {csv_path}")
   return reddit_load
