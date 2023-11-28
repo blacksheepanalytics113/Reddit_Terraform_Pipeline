@@ -3,15 +3,15 @@ import botocore
 from boto3.s3.transfer import S3Transfer
 import boto3
 import datetime
-from spark import spark_adm
 
-aws_access_key_id = "AKIAXQ3PNDPNLHV3R2ON" 
-aws_secret_access_key = "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"
+
+aws_access_key_id = "" 
+aws_secret_access_key = ""
 aws_region = "eu-north-1"
-aws_bucket_name = "redditrawdataterraform"
-file_path = "C:/Users/user/Desktop/Data Engineering Projects(Personal)/AWS_Reddit_Terraform/Csv_Load/Transform_Data/new_data.csv"
-s3_file_name = "s3://redditrawdataterraform/Transformed_Data/"
-file_name = "Reddit_New.csv"
+aws_bucket_name = ""
+file_path = ""
+s3_file_name = ""
+file_name = ""
 def connect_to_s3():
     """
     Post All Data saved to s3 Bucket
